@@ -31,7 +31,7 @@ public class User implements UserDetails{
 private Long id;
 
 private String nome;
-private String email;
+private String username;
 private String password;
 @Enumerated(EnumType.STRING)
 private RoleUser role;
@@ -48,7 +48,7 @@ private RoleUser role;
     }
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
     @Override
     public boolean isAccountNonExpired() {
