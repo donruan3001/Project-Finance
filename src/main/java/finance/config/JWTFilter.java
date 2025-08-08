@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -35,7 +36,7 @@ public class JWTFilter extends OncePerRequestFilter {
         // Busca o usuário no repositório
      if (token != null) {
             var subject = jwtService.getSecretKey(token);
-            User usuario = userRepository.findByUsername(subject);
+            UserDetails usuario = userRepository.findByUsername(subject);
 
             if (usuario != null) {
                 var authentication = new UsernamePasswordAuthenticationToken(

@@ -3,6 +3,8 @@ package finance.domain.user;
 import java.util.Collection;
 import java.util.List;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,13 +32,21 @@ public class User implements UserDetails{
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 private Long id;
 
-private String nome;
+private String name;
 private String username;
 private String password;
 @Enumerated(EnumType.STRING)
 private RoleUser role;
 
- @Override
+        public User(String name, String email, String password,RoleUser role) {
+            this.name = name;
+            this.username = email;
+            this.password = password;
+            this.role = role;
+
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role==RoleUser.ADMIN) return List.of(new  SimpleGrantedAuthority("ROLE_ADMIN"), 
         new SimpleGrantedAuthority("ROLE_USER"));

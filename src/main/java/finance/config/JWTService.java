@@ -4,17 +4,18 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import finance.domain.user.User;
 
 @Service
 public class JWTService {
-@Value(${JWT_SECRET})
+@Value("${JWT_SECRET}")
 private String secretKey;
 
 public String createSecretKey(User user){
@@ -50,7 +51,7 @@ public String getSecretKey(String tokenJWT){
             .getSubject();
 
 
-    } catch (JwtVerificationException exception) { {
+    } catch (JWTCreationException exception) { {
         throw new RuntimeException("Token JWT inválido ou expirado", exception);
     }
 

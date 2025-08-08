@@ -8,7 +8,7 @@ public record  UserRegisterDTO (
 
 
 
-    @NotBlank String nome,
+    @NotBlank String name,
     @NotBlank
     @Email String email,
     @NotBlank String password,
