@@ -2,9 +2,11 @@ package finance.services;
 
 import finance.config.JWTService;
 import finance.domain.user.User;
+import finance.dto.ResponseJwtDTO;
 import finance.dto.UserRegisterDTO;
 import finance.repository.RepositoryUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +23,8 @@ public class ServiceAuth implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    @Lazy
+    AuthenticationManager authenticationManager;
     @Autowired
     private JWTService jwtService;
 
@@ -39,7 +42,7 @@ public class ServiceAuth implements UserDetailsService {
         User newUser = new User(user.name(), user.email(), password, user.role());
         repositoryUser.save(newUser);
     }
-    public void login(String email, String password) {
+    public ResponseJwtDTO login(String email, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
         authenticationManager.authenticate(authenticationToken);
         UserDetails userDetails = loadUserByUsername(email);
@@ -47,7 +50,10 @@ public class ServiceAuth implements UserDetailsService {
             throw new UsernameNotFoundException("Usuário não encontrado");
         }
         String token = jwtService.createSecretKey((User) userDetails);
-        // Aqui você pode retornar o token ou fazer algo com ele
+        ResponseJwtDTO responseJwtDTO = new ResponseJwtDTO(token);
+
+        return responseJwtDTO;
+
     }
 }
 

@@ -28,19 +28,22 @@ public class ControllerAuth {
     private ServiceAuth serviceAuth;
 
 
+
     @PostMapping("/register")
     public ResponseEntity register(@Valid @RequestBody UserRegisterDTO user){
         serviceAuth.register(user);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(null).build();
     }
 
 
 
     @PostMapping("/login")
     public ResponseEntity<ResponseJwtDTO> login(@RequestBody @Valid UserLoginDTO user){
-        serviceAuth.login(user);
+        ResponseJwtDTO token= serviceAuth.login(user.email(),  user.password());
+        return ResponseEntity.ok(token);
 
-        return ResponseEntity.ok(new ResponseJwtDTO(token));
+
+
     }
 
 

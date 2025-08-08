@@ -3,6 +3,7 @@ package finance.dto;
 import finance.domain.user.RoleUser;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record  UserRegisterDTO (
 
@@ -12,7 +13,7 @@ public record  UserRegisterDTO (
     @NotBlank
     @Email String email,
     @NotBlank String password,
-    @NotBlank RoleUser role 
+    @NotNull RoleUser role
 ){
 
 } 
