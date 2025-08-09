@@ -1,4 +1,4 @@
-package finance.dto;
+package finance.dto.user;
 
 import finance.domain.user.RoleUser;
 import jakarta.validation.constraints.Email;
