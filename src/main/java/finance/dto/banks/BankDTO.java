@@ -1,4 +1,6 @@
 package finance.dto.banks;
 
-public record BankDTO(String name) {
+import jakarta.validation.constraints.NotBlank;
+
+public record BankDTO(@NotBlank  String name) {
 }

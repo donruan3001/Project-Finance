@@ -3,6 +3,7 @@ package finance.services;
 import finance.domain.banks.Bank;
 import finance.dto.banks.BankDTO;
 import finance.repository.RepositoryBank;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,14 @@ public class ServiceBank {
 @Autowired
     RepositoryBank repositoryBank;
 
-    public void createBank(BankDTO data){
-    var bank = new Bank(data.name());
-            repositoryBank.save(bank);
+@Transactional
+    public Bank createBank(BankDTO data){
+        System.out.println("ServiceBank.createBank chamado com: " + data.name());
+        var bank = new Bank(data.name().trim());
+        System.out.println("Objeto Bank criado: " + bank.getName());
+        var savedBank = repositoryBank.save(bank);
+        System.out.println("Banco salvo com ID: " + savedBank.getId());
+        return savedBank;
 
     }
     public List<Bank> getAllBanks(){

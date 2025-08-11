@@ -40,6 +40,11 @@
    <artifactId>java-jwt</artifactId>
    <version>4.4.0</version>
  </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>11.7.2</version> <!-- igual ao core que o Spring Boot está usando -->
+        </dependency>
 
 <dependency>
     <groupId>io.jsonwebtoken</groupId>

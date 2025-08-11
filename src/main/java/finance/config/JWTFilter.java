@@ -47,9 +47,8 @@ public class JWTFilter extends OncePerRequestFilter {
             }
         }
 
-
-
-
+        // Sempre chama o filterChain para continuar o processamento
+        filterChain.doFilter(request, response);
         
     }
     private String getToken(HttpServletRequest request) {
