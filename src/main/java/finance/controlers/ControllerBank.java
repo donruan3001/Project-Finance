@@ -21,12 +21,11 @@ public class ControllerBank {
 
 
     @PostMapping
-    ResponseEntity<?> createBank(@RequestBody @Valid BankDTO bank, UriComponentsBuilder  uri) {
+    ResponseEntity<?> createBank(@RequestBody @Valid BankDTO bank) {
 
         var saved= serviceBank.createBank(bank);
-        var urilocation=uri.path("/banks/{id}").buildAndExpand(saved.getId()).toUri();
-        return ResponseEntity.created(urilocation).body(new BankResponseDTO(saved.getId(),saved.getName()));
 
+        return ResponseEntity.ok(saved);
         }
     @GetMapping
     ResponseEntity<?> getAllBanks() {

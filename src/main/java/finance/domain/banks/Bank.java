@@ -16,7 +16,6 @@ import lombok.Setter;
 @Entity(name="banks")
 public class Bank {
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;

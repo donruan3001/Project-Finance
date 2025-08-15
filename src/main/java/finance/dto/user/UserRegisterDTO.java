@@ -7,8 +7,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record  UserRegisterDTO (
 
-
-
     @NotBlank String name,
     @NotBlank
     @Email String email,
