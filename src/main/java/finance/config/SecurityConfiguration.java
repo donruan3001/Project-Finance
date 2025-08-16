@@ -29,6 +29,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(req -> {
                 req.requestMatchers(HttpMethod.POST,"/auth/*").permitAll();
+                req.requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll();
                 req.anyRequest().authenticated();
             })
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

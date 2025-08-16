@@ -26,7 +26,7 @@ public class ControllerAccount {
     @PostMapping
     public ResponseEntity<?> createAccount(@Valid @RequestBody AccountCreateDTO data) {
          var accounts =serviceAccount.createAccount(data);
-        return ResponseEntity.status(HttpStatus.CREATED).body(accounts);
+        return ResponseEntity.ok().build();
     }
     @GetMapping
     public ResponseEntity<Page<AccountResponseDTO>> getAllAccounts(@PageableDefault(size = 10,page = 0)Pageable pageable) {
