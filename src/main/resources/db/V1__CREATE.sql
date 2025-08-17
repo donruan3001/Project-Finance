@@ -19,7 +19,7 @@ CREATE TABLE accounts (
                           user_id BIGINT NOT NULL,
                           bank_id BIGINT NOT NULL,
                           name VARCHAR(120) NOT NULL,
-                          `type` varchar NOT NULL DEFAULT 'corrente',
+                          `type` varchar(30) NOT NULL DEFAULT 'corrente',
                           balance DECIMAL(10,2) NOT NULL DEFAULT 0.00,
                           created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                           FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
