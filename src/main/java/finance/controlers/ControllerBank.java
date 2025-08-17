@@ -36,8 +36,9 @@ public class ControllerBank {
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteBank(@PathVariable Long id) {
         serviceBank.deleteBank(id);
-        return ResponseEntity.noContent().build();
-    }
+        String message = "Banco com ID " + id + " foi deletado com sucesso.";
+        return ResponseEntity.ok().body(message);    }
+
     @PutMapping("/{id}")
     ResponseEntity<?> updateBank(@PathVariable Long id, @RequestBody BankDTO bank) {
         serviceBank.updateBank(id, bank);
