@@ -21,12 +21,11 @@ public class ControllerBank {
 
 
     @PostMapping
-    ResponseEntity<?> createBank(@RequestBody @Valid BankDTO bank, UriComponentsBuilder  uri) {
+    ResponseEntity<?> createBank(@RequestBody @Valid BankDTO bank) {
 
         var saved= serviceBank.createBank(bank);
-        var urilocation=uri.path("/banks/{id}").buildAndExpand(saved.getId()).toUri();
-        return ResponseEntity.created(urilocation).body(new BankResponseDTO(saved.getId(),saved.getName()));
 
+        return ResponseEntity.ok(saved);
         }
     @GetMapping
     ResponseEntity<?> getAllBanks() {
@@ -37,8 +36,9 @@ public class ControllerBank {
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteBank(@PathVariable Long id) {
         serviceBank.deleteBank(id);
-        return ResponseEntity.noContent().build();
-    }
+        String message = "Banco com ID " + id + " foi deletado com sucesso.";
+        return ResponseEntity.ok().body(message);    }
+
     @PutMapping("/{id}")
     ResponseEntity<?> updateBank(@PathVariable Long id, @RequestBody BankDTO bank) {
         serviceBank.updateBank(id, bank);

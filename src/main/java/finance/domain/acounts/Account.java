@@ -28,6 +28,7 @@ public class Account {
     @JoinColumn(name="bank_id")
     private Bank bank;
     private String name;
+    @Enumerated(EnumType.STRING)
     private AccountType type;
     private  BigDecimal balance;
     @Column(nullable = false, updatable = false)
@@ -37,7 +38,7 @@ public class Account {
         this.user = user;
         this.bank = bank;
         this.name = name;
-        this.type = type;
+        this.type = AccountType.valueOf(String.valueOf(type));
         this.balance = balance;
         this.createdAt = LocalDateTime.now();
     }

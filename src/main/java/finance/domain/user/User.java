@@ -37,7 +37,7 @@ private RoleUser role;
             this.name = name;
             this.username = email;
             this.password = password;
-            this.role = role;
+            this.role = RoleUser.valueOf(String.valueOf(role));
 
     }
 

@@ -27,8 +27,13 @@ public class ServiceBank {
     public List<Bank> getAllBanks(){
         return repositoryBank.findAll();
     }
-    public void deleteBank(Long id){
+    public String deleteBank(Long id){
+        if (!repositoryBank.existsById(id)) {
+            throw new IllegalArgumentException("Banco não encontrado com o ID: " + id);
+        }
+
         repositoryBank.deleteById(id);
+        return "Banco com ID " + id + " foi deletado com sucesso.";
     }
 
 
@@ -37,4 +42,5 @@ public class ServiceBank {
         bank.setName(data.name());
          repositoryBank.save(bank);
     }
+
 }

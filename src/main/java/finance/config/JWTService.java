@@ -37,7 +37,7 @@ try {
 }
 //metodo que calcula a data de expiração do token
 private Date dataExpiracao(){
-    return Date.from(LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00")));
+    return Date.from(LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-03:00")));
 
 }
 
