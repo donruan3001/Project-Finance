@@ -1,15 +1,25 @@
 package finance.domain.acounts;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import finance.domain.banks.Bank;
 import finance.domain.user.User;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -31,7 +41,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType type;
     private  BigDecimal balance;
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public Account(User user, Bank bank, String name, AccountType type, BigDecimal balance) {

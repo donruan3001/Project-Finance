@@ -27,6 +27,7 @@ public class ServiceBank {
     public List<Bank> getAllBanks(){
         return repositoryBank.findAll();
     }
+    @Transactional
     public String deleteBank(Long id){
         if (!repositoryBank.existsById(id)) {
             throw new IllegalArgumentException("Banco não encontrado com o ID: " + id);
@@ -36,7 +37,7 @@ public class ServiceBank {
         return "Banco com ID " + id + " foi deletado com sucesso.";
     }
 
-
+@Transactional
     public void updateBank(Long id , BankDTO data) {
         var bank = repositoryBank.findById(id).orElseThrow(() -> new IllegalArgumentException("Banco não encontrado"));
         bank.setName(data.name());
