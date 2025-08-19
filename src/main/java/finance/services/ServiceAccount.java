@@ -12,6 +12,7 @@ import finance.exceptions.IdUserNotFoundException;
 import finance.repository.RepositoryAccount;
 import finance.repository.RepositoryBank;
 import finance.repository.RepositoryUser;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ public class ServiceAccount {
     @Autowired
     private RepositoryBank repositoryBank;
 
+    @Transactional
     public Account createAccount(AccountCreateDTO data) {
         User user = repositoryUser.getReferenceById(data.userId());
         Bank bank = repositoryBank.getReferenceById(data.bankId());
@@ -60,7 +62,7 @@ public class ServiceAccount {
         }
         return dto;
     }
-
+    @Transactional
     public AccountResponseDTO patchAccount(Long id, AccountUpdateDTO data) {
             Account account = repositoryAccount.findById(id)
                     .orElseThrow(() -> new IllegalArgumentException("Conta com ID " + id + " não encontrada"));
@@ -81,7 +83,7 @@ public class ServiceAccount {
                     account.getCreatedAt()
             );
         }
-
+    @Transactional
     public void deleteAccount(Long id) {
             if (!repositoryAccount.existsById(id)) {
                 throw new IllegalArgumentException("Conta com ID " + id + " não encontrada");

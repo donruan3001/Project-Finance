@@ -1,0 +1,99 @@
+### Finance API Test Examples
+### Use com VS Code REST Client extension ou Postman/Insomnia
+
+### 1. REGISTRO DE USUÁRIO
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "password": "123456",
+  "role": "USER"
+}
+
+### 2. LOGIN
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao@email.com",
+  "password": "123456"
+}
+
+### 3. CRIAR BANCO (se necessário)
+POST http://localhost:8080/banks
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Banco do Brasil",
+  "code": "001"
+}
+
+### 4. CRIAR CONTA
+POST http://localhost:8080/accounts
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": 1,
+  "bankId": 1,
+  "name": "Conta Corrente Principal",
+  "type": "CHECKING",
+  "balance": 1000.00
+}
+
+### 5. LISTAR CONTAS
+GET http://localhost:8080/accounts
+Authorization: Bearer {{token}}
+
+### 6. CRIAR TRANSAÇÃO - RECEITA
+POST http://localhost:8080/transactions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": 1,
+  "accountId": 1,
+  "name": "Salário",
+  "category": "SALARY",
+  "type": "INCOME",
+  "amount": 3000.00
+}
+
+### 7. CRIAR TRANSAÇÃO - DESPESA
+POST http://localhost:8080/transactions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": 1,
+  "accountId": 1,
+  "name": "Compra no supermercado",
+  "category": "FOOD",
+  "type": "EXPENSE",
+  "amount": 150.50
+}
+
+### 8. ATUALIZAR CONTA
+PATCH http://localhost:8080/accounts/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Conta Corrente Atualizada"
+}
+
+### 9. DELETAR CONTA
+DELETE http://localhost:8080/accounts/1
+Authorization: Bearer {{token}}
+
+### 10. DOCUMENTAÇÃO SWAGGER
+GET http://localhost:8080/swagger-ui.html
+
+### 11. API DOCS JSON
+GET http://localhost:8080/v3/api-docs
+
+### Variáveis para usar (substitua {{token}} pelo JWT retornado no login)
+# token = seu_jwt_token_aqui 
