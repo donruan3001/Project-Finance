@@ -27,8 +27,10 @@ try {
   
     return JWT.create()
         .withIssuer("api auth")          // Identifica quem gerou o token
-        .withSubject(user.getUsername())    // O "dono" do token (usado no .getSubject())
-        .withExpiresAt(dataExpiracao())        // Expiração do token
+        .withSubject(user.getId().toString())// O "dono" do token (usado no .getSubject())
+            .withClaim("email",user.getUsername()) // Adiciona um dado extra no token
+            .withClaim("role",user.getRole().toString()) // Adiciona
+            .withExpiresAt(dataExpiracao())        // Expiração do token
         .sign(algorithm);                      // Assina o token com o algoritmo
 } catch (JWTCreationException exception){
     throw new RuntimeException("Erro ao gerar token JWT", exception);
@@ -42,7 +44,7 @@ private Date dataExpiracao(){
 }
 
 
-public String getSecretKey(String tokenJWT){
+public String getSubject(String tokenJWT){
     try {
         return JWT.require(Algorithm.HMAC256(secretKey))
             .withIssuer("api auth")

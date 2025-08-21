@@ -28,11 +28,7 @@ public class ControllerAccount {
          var accounts =serviceAccount.createAccount(data);
         return ResponseEntity.ok().build();
     }
-    @GetMapping
-    public ResponseEntity<Page<AccountResponseDTO>> getAllAccounts(@PageableDefault(size = 10,page = 0)Pageable pageable) {
-       var accounts = serviceAccount.getAllAccounts(pageable);
-        return ResponseEntity.ok(accounts);
-    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<AccountResponseDTO> patchAccount(@PathVariable Long id, @RequestBody AccountUpdateDTO data) {
         AccountResponseDTO updatedAccount =serviceAccount.patchAccount(id, data);

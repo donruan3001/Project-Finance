@@ -7,7 +7,7 @@ import finance.dto.transactions.TransactionCreateDTO;
 import finance.repository.RepositoryUser;
 
 @Component
-public class UserValidator implements Validator {
+public class UserValidator implements ValidatorTransaction {
 
     @Autowired
     private RepositoryUser repositoryUser;

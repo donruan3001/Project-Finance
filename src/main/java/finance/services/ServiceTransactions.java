@@ -3,8 +3,10 @@ package finance.services;
 import java.math.BigDecimal;
 import java.util.List;
 
-import finance.validators.transactions.Validator;
+import finance.validators.transactions.CompositeTransactionValidator;
+import finance.validators.transactions.ValidatorTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import finance.domain.acounts.Account;
@@ -27,14 +29,15 @@ public class ServiceTransactions {
     @Autowired
     private RepositoryAccount repositoryAccount;
     @Autowired
-    private List<Validator> validators;
+    private CompositeTransactionValidator validators;
 
+    @PreAuthorize("#data.userId() == authentication.principal.id")
     @Transactional
     public void createTransaction(TransactionCreateDTO data) {
         User user = repositoryUser.getReferenceById(data.userId());
         Account account = repositoryAccount.getReferenceById(data.accountId());
 
-        validators.forEach(validator -> validator.validate(data));
+        validators.validate(data);
 
         //cria o um objeto Transaction
         var transaction = new Transaction(user, account, data.category(), data.name().trim(), data.type(), data.amount());
