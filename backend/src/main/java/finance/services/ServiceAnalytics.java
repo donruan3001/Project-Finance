@@ -1,20 +1,24 @@
 package finance.services;
 
-import finance.domain.transactions.Transaction;
-import finance.domain.transactions.TypeTransaction;
-import finance.dto.analytics.*;
-import finance.repository.RepositoryTransactions;
-import finance.repository.RepositoryUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import finance.domain.transactions.Transaction;
+import finance.domain.transactions.TypeTransaction;
+import finance.dto.analytics.AnalyticsDTO;
+import finance.dto.analytics.MonthlyComparisonDTO;
+import finance.repository.RepositoryTransactions;
+import finance.repository.RepositoryUser;
 
 @Service
 public class ServiceAnalytics {
@@ -63,9 +67,9 @@ public class ServiceAnalytics {
         
         // Calculate savings rate
         BigDecimal savings = totalIncome.subtract(totalExpenses);
-        Double savingsRate = totalIncome.compareTo(BigDecimal.ZERO) > 0 
-            ? savings.divide(totalIncome, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).doubleValue()
-            : 0.0;
+        BigDecimal savingsRate = totalIncome.compareTo(BigDecimal.ZERO) > 0 
+            ? savings.divide(totalIncome, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100))
+            : BigDecimal.ZERO;
         
         // Find top categories
         String topExpenseCategory = expensesByCategory.entrySet().stream()

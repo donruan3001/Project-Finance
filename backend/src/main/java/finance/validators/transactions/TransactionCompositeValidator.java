@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import finance.dto.transactions.TransactionCreateDTO;
 
 @Component
-public class CompositeTransactionValidator implements Validator {
+public class TransactionCompositeValidator implements Validator {
     
     
     private final List<Validator> validators;
     
     @Autowired
-    public CompositeTransactionValidator(List<Validator> validators){
+    public TransactionCompositeValidator(List<Validator> validators){
         this.validators=validators;
     }
 

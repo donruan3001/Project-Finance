@@ -1,30 +1,27 @@
 package finance.services;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
-import finance.validators.transactions.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import finance.domain.acounts.Account;
+import finance.domain.notifications.NotificationType;
 import finance.domain.transactions.Transaction;
 import finance.domain.transactions.TypeTransaction;
 import finance.domain.user.User;
 import finance.dto.transactions.TransactionCreateDTO;
 import finance.dto.transactions.TransactionResponseDTO;
 import finance.repository.RepositoryAccount;
+import finance.repository.RepositoryBudget;
 import finance.repository.RepositoryTransactions;
 import finance.repository.RepositoryUser;
-import finance.repository.RepositoryBudget;
-import finance.services.ServiceNotification;
-import finance.domain.notifications.NotificationType;
+import finance.validators.transactions.Validator;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class ServiceTransactions {
@@ -91,9 +88,14 @@ public class ServiceTransactions {
         
         Page<Transaction> transactions = repositoryTransactions.findAll(pageable);
         
-        return transactions
+        // Filter transactions by user ID and map to DTOs
+        List<TransactionResponseDTO> filteredTransactions = transactions.getContent()
+            .stream()
             .filter(t -> t.getUser().getId().equals(userId))
-            .map(this::mapToResponseDTO);
+            .map(this::mapToResponseDTO)
+            .toList();
+        
+        return new PageImpl<>(filteredTransactions, pageable, filteredTransactions.size());
     }
     
     public List<TransactionResponseDTO> getRecentTransactions(Long userId, int limit) {

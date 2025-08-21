@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import finance.dto.transactions.TransactionCreateDTO;
 
 @Component
-public class BasicDataValidator implements Validator {
+public class TransactionBasicDataValidator implements Validator {
 
     @Override
     public void validate(TransactionCreateDTO data) {
