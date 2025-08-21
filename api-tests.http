@@ -1,8 +1,13 @@
 ### Finance API Test Examples
 ### Use com VS Code REST Client extension ou Postman/Insomnia
 
+### Variables (substitua pelos valores reais)
+@baseUrl = http://localhost:8080
+@token = seu_jwt_token_aqui
+@userId = 1
+
 ### 1. REGISTRO DE USUÁRIO
-POST http://localhost:8080/auth/register
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
@@ -13,7 +18,7 @@ Content-Type: application/json
 }
 
 ### 2. LOGIN
-POST http://localhost:8080/auth/login
+POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
@@ -21,8 +26,22 @@ Content-Type: application/json
   "password": "123456"
 }
 
-### 3. CRIAR BANCO (se necessário)
-POST http://localhost:8080/banks
+### 3. PERFIL DO USUÁRIO
+GET {{baseUrl}}/users/{{userId}}/profile
+Authorization: Bearer {{token}}
+
+### 4. ATUALIZAR PERFIL
+PUT {{baseUrl}}/users/{{userId}}/profile
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "João Silva Santos",
+  "email": "joao.santos@email.com"
+}
+
+### 5. CRIAR BANCO
+POST {{baseUrl}}/banks
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -31,53 +50,153 @@ Authorization: Bearer {{token}}
   "code": "001"
 }
 
-### 4. CRIAR CONTA
-POST http://localhost:8080/accounts
+### 6. LISTAR BANCOS
+GET {{baseUrl}}/banks
+Authorization: Bearer {{token}}
+
+### 7. CRIAR CATEGORIA
+POST {{baseUrl}}/categories
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "userId": 1,
+  "name": "Supermercado",
+  "description": "Compras no supermercado",
+  "icon": "🛒",
+  "color": "#FF6B6B",
+  "type": "EXPENSE"
+}
+
+### 8. LISTAR CATEGORIAS
+GET {{baseUrl}}/categories
+Authorization: Bearer {{token}}
+
+### 9. CATEGORIAS POR TIPO
+GET {{baseUrl}}/categories/type/EXPENSE
+Authorization: Bearer {{token}}
+
+### 10. CRIAR CONTA
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": {{userId}},
   "bankId": 1,
   "name": "Conta Corrente Principal",
-  "type": "CHECKING",
+  "type": "CONTA_CORRENTE",
   "balance": 1000.00
 }
 
-### 5. LISTAR CONTAS
-GET http://localhost:8080/accounts
+### 11. LISTAR CONTAS
+GET {{baseUrl}}/accounts
 Authorization: Bearer {{token}}
 
-### 6. CRIAR TRANSAÇÃO - RECEITA
-POST http://localhost:8080/transactions
+### 12. CRIAR ORÇAMENTO
+POST {{baseUrl}}/budgets
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "userId": 1,
+  "userId": {{userId}},
+  "categoryId": 1,
+  "name": "Orçamento Alimentação Março",
+  "amount": 800.00,
+  "startDate": "2025-03-01",
+  "endDate": "2025-03-31",
+  "period": "MONTHLY"
+}
+
+### 13. LISTAR ORÇAMENTOS
+GET {{baseUrl}}/budgets/user/{{userId}}
+Authorization: Bearer {{token}}
+
+### 14. CRIAR META
+POST {{baseUrl}}/goals
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": {{userId}},
+  "name": "Viagem para Europa",
+  "description": "Economizar para viagem de férias",
+  "targetAmount": 15000.00,
+  "targetDate": "2025-12-31",
+  "priority": "HIGH",
+  "icon": "✈️",
+  "color": "#4ECDC4"
+}
+
+### 15. LISTAR METAS
+GET {{baseUrl}}/goals/user/{{userId}}
+Authorization: Bearer {{token}}
+
+### 16. CRIAR TRANSAÇÃO - RECEITA
+POST {{baseUrl}}/transactions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": {{userId}},
   "accountId": 1,
   "name": "Salário",
-  "category": "SALARY",
+  "category": "ALIMENTACAO",
   "type": "INCOME",
   "amount": 3000.00
 }
 
-### 7. CRIAR TRANSAÇÃO - DESPESA
-POST http://localhost:8080/transactions
+### 17. CRIAR TRANSAÇÃO - DESPESA
+POST {{baseUrl}}/transactions
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "userId": 1,
+  "userId": {{userId}},
   "accountId": 1,
   "name": "Compra no supermercado",
-  "category": "FOOD",
+  "category": "ALIMENTACAO",
   "type": "EXPENSE",
   "amount": 150.50
 }
 
-### 8. ATUALIZAR CONTA
-PATCH http://localhost:8080/accounts/1
+### 18. LISTAR TRANSAÇÕES
+GET {{baseUrl}}/transactions/user/{{userId}}
+Authorization: Bearer {{token}}
+
+### 19. TRANSAÇÕES RECENTES
+GET {{baseUrl}}/transactions/user/{{userId}}/recent?limit=5
+Authorization: Bearer {{token}}
+
+### 20. DASHBOARD COMPLETO
+GET {{baseUrl}}/dashboard/user/{{userId}}
+Authorization: Bearer {{token}}
+
+### 21. ANALYTICS DO MÊS ATUAL
+GET {{baseUrl}}/analytics/user/{{userId}}/current-month
+Authorization: Bearer {{token}}
+
+### 22. ANALYTICS PERSONALIZADO
+GET {{baseUrl}}/analytics/user/{{userId}}?startDate=2025-01-01&endDate=2025-03-31
+Authorization: Bearer {{token}}
+
+### 23. NOTIFICAÇÕES NÃO LIDAS
+GET {{baseUrl}}/notifications/user/{{userId}}/unread
+Authorization: Bearer {{token}}
+
+### 24. CONTADOR DE NOTIFICAÇÕES
+GET {{baseUrl}}/notifications/user/{{userId}}/count
+Authorization: Bearer {{token}}
+
+### 25. MARCAR NOTIFICAÇÃO COMO LIDA
+PATCH {{baseUrl}}/notifications/1/read
+Authorization: Bearer {{token}}
+
+### 26. ATUALIZAR PROGRESSO DA META
+PATCH {{baseUrl}}/goals/1/progress?amount=500.00
+Authorization: Bearer {{token}}
+
+### 27. ATUALIZAR CONTA
+PATCH {{baseUrl}}/accounts/1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -85,15 +204,19 @@ Authorization: Bearer {{token}}
   "name": "Conta Corrente Atualizada"
 }
 
-### 9. DELETAR CONTA
-DELETE http://localhost:8080/accounts/1
+### 28. DELETAR TRANSAÇÃO
+DELETE {{baseUrl}}/transactions/1/user/{{userId}}
 Authorization: Bearer {{token}}
 
-### 10. DOCUMENTAÇÃO SWAGGER
-GET http://localhost:8080/swagger-ui.html
+### 29. DELETAR CONTA
+DELETE {{baseUrl}}/accounts/1
+Authorization: Bearer {{token}}
 
-### 11. API DOCS JSON
-GET http://localhost:8080/v3/api-docs
+### 30. DOCUMENTAÇÃO SWAGGER
+GET {{baseUrl}}/swagger-ui.html
 
-### Variáveis para usar (substitua {{token}} pelo JWT retornado no login)
-# token = seu_jwt_token_aqui 
+### 31. API DOCS JSON
+GET {{baseUrl}}/v3/api-docs
+
+### 32. HEALTH CHECK
+GET {{baseUrl}}/actuator/health
