@@ -1,25 +1,11 @@
 import React from 'react'
 
-const App: React.FC = () => {
+function App() {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            FinanceApp
-          </h1>
-          <p className="text-gray-600 mb-8">
-            Gestão Financeira Inteligente
-          </p>
-          <div className="space-y-4">
-            <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-              Entrar
-            </button>
-            <button className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
-              Registrar
-            </button>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">Finance App</h1>
+        <p className="text-gray-600">Welcome to your financial management system!</p>
       </div>
     </div>
   )
