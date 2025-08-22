@@ -32,13 +32,16 @@ const Register: React.FC = () => {
           <div className="flex justify-center">
             <Wallet className="h-12 w-12 text-primary-600" />
           </div>
+          <div className="flex justify-center mt-2">
+            <span className="text-xl font-bold text-gray-900">FinanceFlow</span>
+          </div>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            Crie sua conta
+            Create your account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Ou{' '}
+            Or{' '}
             <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500">
-              entre na sua conta existente
+              sign in to your existing account
             </Link>
           </p>
         </div>
@@ -47,7 +50,7 @@ const Register: React.FC = () => {
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Nome completo
+                Full name
               </label>
               <input
                 id="name"
@@ -55,7 +58,7 @@ const Register: React.FC = () => {
                 type="text"
                 required
                 className="input-field mt-1"
-                placeholder="Seu nome completo"
+                placeholder="Your full name"
                 value={formData.name}
                 onChange={handleChange}
               />
@@ -71,7 +74,7 @@ const Register: React.FC = () => {
                 type="email"
                 required
                 className="input-field mt-1"
-                placeholder="seu@email.com"
+                placeholder="your@email.com"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -79,7 +82,7 @@ const Register: React.FC = () => {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Senha
+                Password
               </label>
               <div className="mt-1 relative">
                 <input
@@ -88,7 +91,7 @@ const Register: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   required
                   className="input-field pr-10"
-                  placeholder="Sua senha"
+                  placeholder="Your password"
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -108,7 +111,7 @@ const Register: React.FC = () => {
 
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                Confirmar senha
+                Confirm password
               </label>
               <div className="mt-1 relative">
                 <input
@@ -117,7 +120,7 @@ const Register: React.FC = () => {
                   type={showConfirmPassword ? 'text' : 'password'}
                   required
                   className="input-field pr-10"
-                  placeholder="Confirme sua senha"
+                  placeholder="Confirm your password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
@@ -141,19 +144,19 @@ const Register: React.FC = () => {
               type="submit"
               className="w-full btn-primary py-3 text-base font-medium"
             >
-              Criar conta
+              Create Account
             </button>
           </div>
 
           <div className="text-center">
             <p className="text-xs text-gray-500">
-              Ao criar uma conta, você concorda com nossos{' '}
+              By creating an account, you agree to our{' '}
               <a href="#" className="text-primary-600 hover:text-primary-500">
-                Termos de Uso
+                Terms of Service
               </a>{' '}
-              e{' '}
+              and{' '}
               <a href="#" className="text-primary-600 hover:text-primary-500">
-                Política de Privacidade
+                Privacy Policy
               </a>
             </p>
           </div>

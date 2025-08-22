@@ -29,13 +29,16 @@ const Login: React.FC = () => {
           <div className="flex justify-center">
             <Wallet className="h-12 w-12 text-primary-600" />
           </div>
+          <div className="flex justify-center mt-2">
+            <span className="text-xl font-bold text-gray-900">FinanceFlow</span>
+          </div>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            Entre na sua conta
+            Sign in to your account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Ou{' '}
+            Or{' '}
             <Link to="/register" className="font-medium text-primary-600 hover:text-primary-500">
-              crie uma nova conta
+              create a new account
             </Link>
           </p>
         </div>
@@ -52,7 +55,7 @@ const Login: React.FC = () => {
                 type="email"
                 required
                 className="input-field mt-1"
-                placeholder="seu@email.com"
+                placeholder="your@email.com"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -60,7 +63,7 @@ const Login: React.FC = () => {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Senha
+                Password
               </label>
               <div className="mt-1 relative">
                 <input
@@ -69,7 +72,7 @@ const Login: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   required
                   className="input-field pr-10"
-                  placeholder="Sua senha"
+                  placeholder="Your password"
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -97,13 +100,13 @@ const Login: React.FC = () => {
                 className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
               />
               <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Lembrar de mim
+                Remember me
               </label>
             </div>
 
             <div className="text-sm">
               <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
-                Esqueceu a senha?
+                Forgot your password?
               </a>
             </div>
           </div>
@@ -113,7 +116,7 @@ const Login: React.FC = () => {
               type="submit"
               className="w-full btn-primary py-3 text-base font-medium"
             >
-              Entrar
+              Sign In
             </button>
           </div>
         </form>

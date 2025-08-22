@@ -10,7 +10,7 @@ const Dashboard: React.FC = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Wallet className="h-8 w-8 text-primary-600" />
-              <h1 className="ml-2 text-xl font-bold text-gray-900">Finance App</h1>
+              <h1 className="ml-2 text-xl font-bold text-gray-900">FinanceFlow</h1>
             </div>
             <div className="flex items-center space-x-4">
               <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
@@ -34,8 +34,8 @@ const Dashboard: React.FC = () => {
                 <Wallet className="h-6 w-6 text-primary-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Saldo Total</p>
-                <p className="text-2xl font-bold text-gray-900">R$ 12.450,00</p>
+                <p className="text-sm font-medium text-gray-600">Total Balance</p>
+                <p className="text-2xl font-bold text-gray-900">$12,450.00</p>
               </div>
             </div>
           </div>
@@ -46,8 +46,8 @@ const Dashboard: React.FC = () => {
                 <TrendingUp className="h-6 w-6 text-success-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Receitas</p>
-                <p className="text-2xl font-bold text-success-600">R$ 8.500,00</p>
+                <p className="text-sm font-medium text-gray-600">Income</p>
+                <p className="text-2xl font-bold text-success-600">$8,500.00</p>
               </div>
             </div>
           </div>
@@ -58,8 +58,8 @@ const Dashboard: React.FC = () => {
                 <PieChart className="h-6 w-6 text-error-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Despesas</p>
-                <p className="text-2xl font-bold text-error-600">R$ 3.250,00</p>
+                <p className="text-sm font-medium text-gray-600">Expenses</p>
+                <p className="text-2xl font-bold text-error-600">$3,250.00</p>
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@ const Dashboard: React.FC = () => {
                 <Target className="h-6 w-6 text-warning-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Metas</p>
+                <p className="text-sm font-medium text-gray-600">Goals</p>
                 <p className="text-2xl font-bold text-warning-600">75%</p>
               </div>
             </div>
@@ -79,19 +79,19 @@ const Dashboard: React.FC = () => {
 
         {/* Quick Actions */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Ações Rápidas</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
           <div className="flex flex-wrap gap-4">
             <button className="btn-primary flex items-center">
               <Plus className="h-4 w-4 mr-2" />
-              Nova Transação
+              New Transaction
             </button>
             <button className="btn-secondary flex items-center">
               <Target className="h-4 w-4 mr-2" />
-              Criar Meta
+              Create Goal
             </button>
             <button className="btn-secondary flex items-center">
               <PieChart className="h-4 w-4 mr-2" />
-              Ver Relatórios
+              View Reports
             </button>
           </div>
         </div>
@@ -99,7 +99,7 @@ const Dashboard: React.FC = () => {
         {/* Recent Transactions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="card">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Transações Recentes</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Transactions</h3>
             <div className="space-y-4">
               {[1, 2, 3, 4].map((item) => (
                 <div key={item} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -108,23 +108,23 @@ const Dashboard: React.FC = () => {
                       <Wallet className="h-5 w-5 text-primary-600" />
                     </div>
                     <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">Supermercado</p>
-                      <p className="text-xs text-gray-500">Hoje, 14:30</p>
+                      <p className="text-sm font-medium text-gray-900">Grocery Store</p>
+                      <p className="text-xs text-gray-500">Today, 2:30 PM</p>
                     </div>
                   </div>
-                  <span className="text-sm font-medium text-error-600">-R$ 125,50</span>
+                  <span className="text-sm font-medium text-error-600">-$125.50</span>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="card">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Metas Financeiras</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Financial Goals</h3>
             <div className="space-y-4">
               {[
-                { name: 'Viagem Europa', progress: 75, target: 15000, current: 11250 },
-                { name: 'Reserva Emergência', progress: 45, target: 10000, current: 4500 },
-                { name: 'Novo Carro', progress: 30, target: 50000, current: 15000 }
+                { name: 'Europe Trip', progress: 75, target: 15000, current: 11250 },
+                { name: 'Emergency Fund', progress: 45, target: 10000, current: 4500 },
+                { name: 'New Car', progress: 30, target: 50000, current: 15000 }
               ].map((goal, index) => (
                 <div key={index} className="p-3 bg-gray-50 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
@@ -138,8 +138,8 @@ const Dashboard: React.FC = () => {
                     ></div>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>R$ {goal.current.toLocaleString()}</span>
-                    <span>R$ {goal.target.toLocaleString()}</span>
+                    <span>${goal.current.toLocaleString()}</span>
+                    <span>${goal.target.toLocaleString()}</span>
                   </div>
                 </div>
               ))}
