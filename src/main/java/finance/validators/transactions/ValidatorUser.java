@@ -1,17 +1,12 @@
-package finance.validators;
+package finance.validators.transactions;
 
-import finance.domain.acounts.Account;
-import finance.domain.transactions.TypeTransaction;
-import finance.domain.user.User;
 import finance.dto.transactions.TransactionCreateDTO;
-import finance.repository.RepositoryAccount;
 import finance.repository.RepositoryUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 @Component
-public class ValidatorUser implements ValidatorTransaction {
+public class ValidatorUser implements Validator {
     @Autowired
     private RepositoryUser repositoryUser;
 

@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8.0
+    container_name: finance_db
+    environment:
+      MYSQL_DATABASE: finance
+      MYSQL_ROOT_PASSWORD: midea
+    ports:
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pmidea"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 30s
+
+  app:
+    build: .
+    container_name: finance_app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/finance?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: midea
+      JWT_SECRET: your-256-bit-secret-key-here-must-be-at-least-256-bits-long
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  dbdata:
+    driver: local

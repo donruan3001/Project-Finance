@@ -148,6 +148,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>
+        <finalName>app</finalName>
+
+    </build>
 
 </project>
