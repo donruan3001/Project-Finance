@@ -10,9 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record TransactionCreateDTO(
-
-         Long userId,
-         Long accountId,
+        @NotNull
+        Long accountId,
+        @NotNull
          String name,
          CategoryTransactions category,
          @NotNull

@@ -5,6 +5,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,13 @@ public String createSecretKey(User user){
 
     // Gerar o token
 try {
-    
+
     var algorithm= Algorithm.HMAC256(secretKey);
-  
+
     return JWT.create()
         .withIssuer("api auth")          // Identifica quem gerou o token
-        .withSubject(user.getUsername())    // O "dono" do token (usado no .getSubject())
+        .withSubject(user.getUsername())
+            .withClaim("userId",user.getId())// O "dono" do token (usado no .getSubject())
         .withExpiresAt(dataExpiracao())        // Expiração do token
         .sign(algorithm);                      // Assina o token com o algoritmo
 } catch (JWTCreationException exception){
@@ -56,4 +58,20 @@ public String getSecretKey(String tokenJWT){
     }
 
     }
-}}
+}
+    public Long getUserId(String tokenJWT){
+        try {
+            String subject = JWT.require(Algorithm.HMAC256(secretKey))
+                    .withIssuer("api auth")
+                    .build()
+                    .verify(tokenJWT)
+                    .getSubject();   // <- subject agora é o ID
+
+            return Long.parseLong(subject);
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("Token JWT inválido ou expirado", exception);
+        }
+    }
+
+
+}

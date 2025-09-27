@@ -1,14 +1,19 @@
 package finance.services;
 
+import com.auth0.jwt.JWT;
 import finance.config.JWTService;
 import finance.domain.user.User;
 import finance.dto.ResponseJwtDTO;
 import finance.dto.user.UserRegisterDTO;
+import finance.exceptions.UnatorizedExecption;
 import finance.repository.RepositoryUser;
+import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -52,6 +57,8 @@ public class ServiceAuth implements UserDetailsService {
         ResponseJwtDTO responseJwtDTO = new ResponseJwtDTO(token);
 
         return responseJwtDTO;
+
+
 
     }
 }

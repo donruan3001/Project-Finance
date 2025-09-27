@@ -8,20 +8,20 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record AccountCreateDTO(
-        @NotNull
+        @NotNull(message = "account.userId.required")
         Long userId,
 
-        @NotNull
+        @NotNull(message = "account.bankId.required")
         Long bankId,
 
-        @NotBlank
+        @NotBlank(message = "account.name.required")
         String name,
 
-
+        @NotNull(message = "account.type.required")
         AccountType type,
 
-        @NotNull
-        @DecimalMin(value = "0.00", inclusive = true, message = "balance não pode ser negativo")
+        @NotNull(message = "account.balance.required")
+        @DecimalMin(value = "0.00", inclusive = true, message = "account.balance.negative")
         BigDecimal balance
 
 

@@ -1,6 +1,12 @@
 package finance.exceptions;
 
+import java.security.InvalidParameterException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,10 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.security.InvalidParameterException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
+import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -81,5 +84,21 @@ public class GlobalExceptionHandler {
         response.put("message", e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    
+  @ExceptionHandler(EmailAlreadyExistsException.class)
+  public ProblemDetail handleEmail(EmailAlreadyExistsException ex) {
+    var pd = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+    pd.setTitle("Email já cadastrado");
+    pd.setDetail(ex.getMessage());
+    return pd;
+  }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ProblemDetail handleNotFound(EntityNotFoundException ex) {
+    var pd = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+    pd.setTitle("Recurso não encontrado");
+    pd.setDetail(ex.getMessage());
+    return pd;
+  }
 }
 
