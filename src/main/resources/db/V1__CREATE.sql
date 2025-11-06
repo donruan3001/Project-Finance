@@ -28,7 +28,7 @@ CREATE TABLE accounts (
 
 CREATE TABLE transactions (
                               id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                              user_id BIGINT NOT NULL,
+                    
                               account_id BIGINT NOT NULL,
                               category VARCHAR(30) DEFAULT NULL,
                               name VARCHAR(50) NULL,
@@ -36,6 +36,5 @@ CREATE TABLE transactions (
                               amount DECIMAL(10,2) NOT NULL,
                               created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                               updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                              FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-                              FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+                            FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
 );

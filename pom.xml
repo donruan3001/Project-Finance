@@ -11,7 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>finance</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>finance</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -22,7 +22,7 @@
 		<developer/>
 	</developers>
     <modules>
-        <module>front</module>
+  
     </modules>
     <scm>
 		<connection/>

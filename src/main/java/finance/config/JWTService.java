@@ -16,6 +16,7 @@ import finance.domain.user.User;
 
 @Service
 public class JWTService {
+    
 @Value("${JWT_SECRET}")
 private String secretKey;
 
