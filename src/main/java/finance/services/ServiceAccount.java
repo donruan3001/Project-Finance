@@ -1,11 +1,12 @@
 package finance.services;
 
+import finance.config.JWTService;
 import finance.domain.acounts.Account;
 import finance.domain.banks.Bank;
 import finance.domain.user.User;
 import finance.dto.accounts.AccountCreateDTO;
 import finance.dto.accounts.AccountResponseDTO;
-import finance.dto.accounts.AccountUpdateDTO;
+
 
 import finance.repository.RepositoryAccount;
 import finance.repository.RepositoryBank;
@@ -27,76 +28,58 @@ public class ServiceAccount {
     private RepositoryUser repositoryUser;
     @Autowired
     private RepositoryBank repositoryBank;
+    @Autowired
+    private JWTService jwtService;
 
     @Transactional
-    public Account createAccount(AccountCreateDTO data) {
+    public AccountResponseDTO createAccount(AccountCreateDTO data) {
 
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username= auth.getName();
-        
-        if(user.getUsername() != username) {
+
+
+        User user = repositoryUser.findByUsername(username);
+
+        Bank bank = repositoryBank.findById(data.bankId())
+                .orElseThrow(() -> new RuntimeException("Banco com ID " + data.bankId() + " não encontrado"));
+
+        if(!user.getUsername().equals(username)) {
             throw new RuntimeException("Usuário autenticado não corresponde ao ID fornecido");
         }
-
-        User user = repositoryUser.getReferenceById(data.userId());
-       
-        Bank bank = repositoryBank.getReferenceById(data.bankId());
-     
 
         var account = new Account(user,
                 bank, data.name().trim(),
                 data.type(), data.balance());
 
         repositoryAccount.save(account);
-        return account;
 
-    }
-
-    public Page<AccountResponseDTO> getAllAccounts(Pageable pageable) {
-        Page<Account> accounts = repositoryAccount.findAll(pageable);
-        var dto= accounts.map(account -> new AccountResponseDTO(
+        return new AccountResponseDTO(
                 account.getId(),
                 account.getUser().getId(),
                 account.getBank().getId(),
                 account.getName(),
                 account.getType(),
                 account.getBalance(),
-                account.getCreatedAt()));
-        if(accounts.isEmpty()) {
-            throw new IllegalArgumentException("Nenhuma conta encontrada");
-        }
-        return dto;
+                account.getCreatedAt()
+        );
     }
-    @Transactional
-    public AccountResponseDTO patchAccount(Long id, AccountUpdateDTO data) {
-            Account account = repositoryAccount.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("Conta com ID " + id + " não encontrada"));
+    public Page<AccountResponseDTO> getMyAccounts(Pageable pageable) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username= auth.getName();
 
-            // Atualiza apenas os campos fornecidos, preservando os existentes
-            if (data.name() != null) account.setName(data.name().trim());
-            if (data.type() != null) account.setType(data.type());
-            if (data.balance() != null) account.setBalance(data.balance());
+        User user = repositoryUser.findByUsername(username);
+        
+        Page<Account> accounts = repositoryAccount.findByUserId(user.getId(), pageable);
 
-            account = repositoryAccount.save(account);
-            return new AccountResponseDTO(
-                    account.getId(),
-                    account.getUser().getId(),
-                    account.getBank().getId(),
-                    account.getName(),
-                    account.getType(),
-                    account.getBalance(),
-                    account.getCreatedAt()
-            );
-        }
-    @Transactional
-    public void deleteAccount(Long id) {
-            if (!repositoryAccount.existsById(id)) {
-                throw new IllegalArgumentException("Conta com ID " + id + " não encontrada");
-            }
-            repositoryAccount.deleteById(id);
-        }
-
-
-    }
-
-
+        return accounts.map(account -> new AccountResponseDTO(
+                        account.getId(),
+                        account.getUser().getId(),
+                        account.getBank().getId(),
+                        account.getName(),
+                        account.getType(),
+                        account.getBalance(),
+                        account.getCreatedAt()
+                ));
+ 
+}
+}

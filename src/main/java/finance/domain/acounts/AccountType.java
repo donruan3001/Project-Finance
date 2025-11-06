@@ -1,7 +1,6 @@
 package finance.domain.acounts;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import finance.domain.transactions.TypeTransaction;
 
 public enum AccountType {
     CONTA_CONJUNTA,CONTA_CORRENTE,CONTA_CREDITO,CONTA_DIGITAL,

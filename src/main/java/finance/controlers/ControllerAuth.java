@@ -3,7 +3,6 @@ package finance.controlers;
 import finance.dto.ResponseJwtDTO;
 import finance.dto.user.UserLoginDTO;
 import finance.dto.user.UserRegisterDTO;
-import finance.repository.RepositoryUser;
 import finance.services.ServiceAuth;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class ControllerAuth {
 
-    @Autowired
-    private RepositoryUser repositoryUser;
+
     @Autowired
     private ServiceAuth serviceAuth;
 

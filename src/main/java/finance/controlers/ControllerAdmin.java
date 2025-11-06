@@ -1,0 +1,45 @@
+package finance.controlers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import finance.services.ServiceAdmin;
+import finance.dto.accounts.AccountResponseDTO;
+import finance.dto.accounts.AccountUpdateDTO;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+@RestController
+@RequestMapping("/admin")
+public class ControllerAdmin {
+
+    @Autowired
+    private ServiceAdmin serviceAdmin;
+
+        @PatchMapping("/{id}")
+    public ResponseEntity<AccountResponseDTO> patchAccount(@PathVariable Long id, @RequestBody AccountUpdateDTO data) {
+        AccountResponseDTO updatedAccount =serviceAdmin.patchAccount(id, data);
+        return ResponseEntity.ok(updatedAccount);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAccount(@PathVariable Long id) {
+        serviceAdmin.deleteAccount(id);
+        return ResponseEntity.noContent().build();
+    }
+    @GetMapping()
+    public ResponseEntity<Page<AccountResponseDTO>> getAllAccounts(@PageableDefault(size = 10,page = 0)Pageable pageable) {
+        
+        Page<AccountResponseDTO> accounts = serviceAdmin.getAllAccounts(pageable);
+        return ResponseEntity.ok(accounts);
+    }
+    
+}

@@ -1,7 +1,6 @@
 package finance.dto.accounts;
 
 import finance.domain.acounts.AccountType;
-import jakarta.validation.constraints.DecimalMin;
 
 import java.math.BigDecimal;
 

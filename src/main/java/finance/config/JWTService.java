@@ -5,13 +5,12 @@ import java.time.ZoneOffset;
 import java.util.Date;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
-import io.jsonwebtoken.Jwts;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import finance.domain.user.User;
 
 @Service
@@ -52,27 +51,13 @@ public String getSecretKey(String tokenJWT){
             .build()
             .verify(tokenJWT)
             .getSubject();
-
-
     } catch (JWTCreationException exception) { {
         throw new RuntimeException("Token JWT inválido ou expirado", exception);
     }
 
     }
 }
-    public Long getUserId(String tokenJWT){
-        try {
-            String subject = JWT.require(Algorithm.HMAC256(secretKey))
-                    .withIssuer("api auth")
-                    .build()
-                    .verify(tokenJWT)
-                    .getSubject();   // <- subject agora é o ID
 
-            return Long.parseLong(subject);
-        } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Token JWT inválido ou expirado", exception);
-        }
-    }
 
 
 }

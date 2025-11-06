@@ -22,6 +22,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private RoleUser role;
 
+
+
     // 🔹 Construtor vazio (obrigatório para o JPA)
     public User() {
     }

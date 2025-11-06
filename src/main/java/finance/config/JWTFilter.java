@@ -34,7 +34,10 @@ public class JWTFilter extends OncePerRequestFilter {
         }
         // Busca o usuário no repositório
      if (token != null) {
+
             var subject = jwtService.getSecretKey(token);
+           
+
             UserDetails usuario = userRepository.findByUsername(subject);
 
             if (usuario != null) {
