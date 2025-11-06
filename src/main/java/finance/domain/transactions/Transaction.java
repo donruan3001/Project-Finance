@@ -1,23 +1,15 @@
 package finance.domain.transactions;
 
-import finance.domain.user.User;
-import finance.domain.acounts.Account;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
+import finance.domain.acounts.Account;
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "transactions")
-
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,6 +31,24 @@ public class Transaction {
     private LocalDateTime created;
     private LocalDateTime updated;
 
+    // 🔹 Construtor vazio (necessário para o JPA)
+    public Transaction() {
+    }
+
+    // 🔹 Construtor completo
+    public Transaction(Long id, Account account, CategoryTransactions category, String name,
+                       TypeTransaction type, BigDecimal amount, LocalDateTime created, LocalDateTime updated) {
+        this.id = id;
+        this.account = account;
+        this.category = category;
+        this.name = name;
+        this.type = type;
+        this.amount = amount;
+        this.created = created;
+        this.updated = updated;
+    }
+
+    // 🔹 Construtor usado na criação
     public Transaction(Account account, CategoryTransactions category, String name,
                        TypeTransaction type, BigDecimal amount) {
         this.account = account;
@@ -50,8 +60,69 @@ public class Transaction {
         this.updated = LocalDateTime.now();
     }
 
-    // atalho conveniente
-    public User getUser() {
-        return account.getUser();
+    // ========== GETTERS E SETTERS ==========
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public CategoryTransactions getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryTransactions category) {
+        this.category = category;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public TypeTransaction getType() {
+        return type;
+    }
+
+    public void setType(TypeTransaction type) {
+        this.type = type;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
     }
 }

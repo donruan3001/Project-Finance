@@ -7,8 +7,6 @@ import finance.dto.accounts.AccountCreateDTO;
 import finance.dto.accounts.AccountResponseDTO;
 import finance.dto.accounts.AccountUpdateDTO;
 
-import finance.exceptions.IdBankNotFoundException;
-import finance.exceptions.IdUserNotFoundException;
 import finance.repository.RepositoryAccount;
 import finance.repository.RepositoryBank;
 import finance.repository.RepositoryUser;
@@ -34,10 +32,14 @@ public class ServiceAccount {
     public Account createAccount(AccountCreateDTO data) {
 
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String username= auth.getName();
+        String username= auth.getName();
         
+        if(user.getUsername() != username) {
+            throw new RuntimeException("Usuário autenticado não corresponde ao ID fornecido");
+        }
 
         User user = repositoryUser.getReferenceById(data.userId());
+       
         Bank bank = repositoryBank.getReferenceById(data.bankId());
      
 

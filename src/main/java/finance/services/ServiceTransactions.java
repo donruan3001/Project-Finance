@@ -1,23 +1,18 @@
 package finance.services;
-
-import finance.config.JWTService;
 import finance.dto.transactions.TransactionResponseDTO;
-
 import finance.exceptions.RuntimeUserNotAuthorized;
 import finance.exceptions.TransactionValidation;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Page;
 import finance.domain.acounts.Account;
 import finance.domain.transactions.Transaction;
 import finance.domain.transactions.TypeTransaction;
 import finance.dto.transactions.TransactionCreateDTO;
 import finance.repository.RepositoryAccount;
 import finance.repository.RepositoryTransactions;
-import finance.repository.RepositoryUser;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -27,11 +22,6 @@ public class ServiceTransactions {
     private  RepositoryTransactions repositoryTransactions;
     @Autowired
     private RepositoryAccount repositoryAccount;
-
-    @Autowired
-    private RepositoryUser repositoryUser;
-    @Autowired
-    private JWTService jwtService;
 
 @Transactional
 public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
@@ -46,7 +36,7 @@ public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
         throw new RuntimeUserNotAuthorized("A conta nao pertence ao user autenticado");
     }
 
-    Transaction transaction;
+
     try {
 
         if (data.type().equals(TypeTransaction.EXPENSE)) {
@@ -57,7 +47,7 @@ public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
             account.setBalance(account.getBalance().add(data.amount()));
             repositoryAccount.save(account);
         }
-        transaction = new Transaction(
+        Transaction transaction = new Transaction(
                 account,
                 data.category(),
                 data.name(),
@@ -65,15 +55,20 @@ public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
                 data.amount()
         );
 
+
         repositoryTransactions.save(transaction);
+
+        return new TransactionResponseDTO(
+                    transaction.getId(),
+                    account.getId(),
+                    transaction.getCategory(),
+                    transaction.getName(),
+                    transaction.getAmount()
+        );
 
     } catch (TransactionValidation e) {
         throw new TransactionValidation("erro no processamento da transacao");
     }
-    TransactionResponseDTO response = new TransactionResponseDTO(transaction);
-
-    return response;
-}
-}
 
 
+}}

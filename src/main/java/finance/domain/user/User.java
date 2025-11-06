@@ -2,63 +2,105 @@ package finance.domain.user;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+@Entity
+@Table(name = "users")
+public class User implements UserDetails {
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity(name="users")
-@Table(name="users")
-public class User implements UserDetails{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@Id
-@GeneratedValue(strategy=GenerationType.IDENTITY)
-private Long id;
+    private String name;
+    private String username;
+    private String password;
 
-private String name;
-private String username;
-private String password;
-@Enumerated(EnumType.STRING)
-private RoleUser role;
+    @Enumerated(EnumType.STRING)
+    private RoleUser role;
 
-        public User(String name, String email, String password) {
-            this.name = name;
-            this.username = email;
-            this.password = password;
-            this.role = RoleUser.USER;
-
+    // 🔹 Construtor vazio (obrigatório para o JPA)
+    public User() {
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role==RoleUser.ADMIN) return List.of(new  SimpleGrantedAuthority("ROLE_ADMIN"), 
-        new SimpleGrantedAuthority("ROLE_USER"));
-        else  return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    // 🔹 Construtor completo
+    public User(Long id, String name, String username, String password, RoleUser role) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
-    @Override
-    public String getPassword() {
-       return password;
+
+    // 🔹 Construtor de registro (padrão: USER)
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.username = email;
+        this.password = password;
+        this.role = RoleUser.USER;
     }
+
+    // ========== GETTERS E SETTERS ==========
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String getUsername() {
         return username;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public RoleUser getRole() {
+        return role;
+    }
+
+    public void setRole(RoleUser role) {
+        this.role = role;
+    }
+
+    // ========== MÉTODOS DO USERDETAILS ==========
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == RoleUser.ADMIN) {
+            return List.of(
+                new SimpleGrantedAuthority("ROLE_ADMIN"),
+                new SimpleGrantedAuthority("ROLE_USER")
+            );
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -78,6 +120,4 @@ private RoleUser role;
     public boolean isEnabled() {
         return true;
     }
-
-
 }

@@ -1,6 +1,5 @@
 package finance.config;
 
-import finance.domain.user.User;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
