@@ -1,24 +1,20 @@
 package finance.services;
 
-import com.auth0.jwt.JWT;
-import finance.config.JWTService;
-import finance.domain.user.User;
-import finance.dto.ResponseJwtDTO;
-import finance.dto.user.UserRegisterDTO;
-import finance.exceptions.UnatorizedExecption;
-import finance.repository.RepositoryUser;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import finance.config.JWTService;
+import finance.domain.user.User;
+import finance.dto.ResponseJwtDTO;
+import finance.dto.user.UserRegisterDTO;
+import finance.repository.RepositoryUser;
 
 @Service
 public class ServiceAuth implements UserDetailsService {
@@ -43,7 +39,7 @@ public class ServiceAuth implements UserDetailsService {
             throw new IllegalArgumentException("Email já cadastrado");
         }
         String password = passwordEncoder.encode(user.password());
-        User newUser = new User(user.name(), user.email(), password, user.role());
+        User newUser = new User(user.name(), user.email(), password);   
         repositoryUser.save(newUser);
     }
     public ResponseJwtDTO login(String email, String password) {

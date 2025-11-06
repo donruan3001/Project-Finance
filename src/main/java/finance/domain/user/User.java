@@ -3,13 +3,17 @@ package finance.domain.user;
 import java.util.Collection;
 import java.util.List;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,11 +37,11 @@ private String password;
 @Enumerated(EnumType.STRING)
 private RoleUser role;
 
-        public User(String name, String email, String password,RoleUser role) {
+        public User(String name, String email, String password) {
             this.name = name;
             this.username = email;
             this.password = password;
-            this.role = RoleUser.valueOf(String.valueOf(role));
+            this.role = RoleUser.USER;
 
     }
 
