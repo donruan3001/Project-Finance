@@ -33,17 +33,14 @@ public class ServiceAccount {
     @Transactional
     public Account createAccount(AccountCreateDTO data) {
 
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String username= auth.getName();
+        
 
         User user = repositoryUser.getReferenceById(data.userId());
         Bank bank = repositoryBank.getReferenceById(data.bankId());
-        if (!repositoryUser.existsById(user.getId())) {
-            throw new IdUserNotFoundException(data.userId());
-        }
-        if (!repositoryBank.existsById(bank.getId())) {
-            throw new IdBankNotFoundException(data.bankId());
-        }
+     
+
         var account = new Account(user,
                 bank, data.name().trim(),
                 data.type(), data.balance());

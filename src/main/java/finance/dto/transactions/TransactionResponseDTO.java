@@ -16,16 +16,5 @@ public record TransactionResponseDTO(
         LocalDateTime created,
         LocalDateTime updated
 ) {
-    public TransactionResponseDTO(Transaction transaction) {
-        this(
-                transaction.getId(),
-                transaction.getAccount().getUser().getId(),  // <- pega o dono
-                transaction.getAccount().getId(),
-                transaction.getCategory(),
-                transaction.getName(),
-                transaction.getAmount(),
-                transaction.getCreated(),
-                transaction.getUpdated()
-        );
-    }
+
 }

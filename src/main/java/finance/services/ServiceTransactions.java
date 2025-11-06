@@ -9,9 +9,8 @@ import finance.exceptions.TransactionValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
 import finance.domain.acounts.Account;
 import finance.domain.transactions.Transaction;
 import finance.domain.transactions.TypeTransaction;
@@ -43,7 +42,7 @@ public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
     Account account = repositoryAccount.findById(data.accountId())
             .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
-    if (account.getUser().getUsername().equals(username)) {
+    if (!account.getUser().getUsername().equals(username)) {
         throw new RuntimeUserNotAuthorized("A conta nao pertence ao user autenticado");
     }
 
@@ -74,6 +73,7 @@ public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
     TransactionResponseDTO response = new TransactionResponseDTO(transaction);
 
     return response;
-}}
+}
+}
 
 

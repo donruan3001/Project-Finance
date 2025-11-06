@@ -30,7 +30,7 @@ try {
     return JWT.create()
         .withIssuer("api auth")          // Identifica quem gerou o token
         .withSubject(user.getUsername())
-            .withClaim("userId",user.getId())// O "dono" do token (usado no .getSubject())
+        .withClaim("userId",user.getId())// O "dono" do token (usado no .getSubject())
         .withExpiresAt(dataExpiracao())        // Expiração do token
         .sign(algorithm);                      // Assina o token com o algoritmo
 } catch (JWTCreationException exception){
