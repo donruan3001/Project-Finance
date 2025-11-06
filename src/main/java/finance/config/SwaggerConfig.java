@@ -30,21 +30,6 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Finance API")
                         .version("1.0.0")
-                        .description("API para gerenciamento financeiro pessoal com autenticação JWT")
-                        .contact(new Contact()
-                                .name("Equipe de Desenvolvimento")
-                                .email("dev@finance.com")
-                                .url("https://finance.com"))
-                        .license(new License()
-                                .name("MIT License")
-                                .url("https://opensource.org/licenses/MIT")))
-                .servers(List.of(
-                        new Server()
-                                .url("http://localhost:8080")
-                                .description("Servidor de Desenvolvimento"),
-                        new Server()
-                                .url("https://api.finance.com")
-                                .description("Servidor de Produção")
-                ));
+                );
     }
 }

@@ -19,8 +19,6 @@ public class ControllerAccount {
 
     @Autowired
     private ServiceAccount serviceAccount;
-
-
     @PostMapping
     public ResponseEntity<AccountResponseDTO> createAccount(@Valid @RequestBody AccountCreateDTO data) {
          var accounts =serviceAccount.createAccount(data);
@@ -31,9 +29,4 @@ public class ControllerAccount {
        var accounts = serviceAccount.getMyAccounts(pageable);
         return ResponseEntity.ok(accounts);
     }
-
-
-
-
-
 }
