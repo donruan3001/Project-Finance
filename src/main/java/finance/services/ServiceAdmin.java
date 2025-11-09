@@ -22,6 +22,7 @@ public class ServiceAdmin {
     @Autowired
     private RepositoryBank repositoryBank;
 
+
         public Page<AccountResponseDTO> getAllAccounts(Pageable pageable) {
         Page<Account> accounts = repositoryAccount.findAll(pageable);
         
