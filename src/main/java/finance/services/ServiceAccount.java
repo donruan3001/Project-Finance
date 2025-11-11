@@ -1,23 +1,21 @@
 package finance.services;
 
-import finance.config.JWTService;
-import finance.domain.acounts.Account;
-import finance.domain.banks.Bank;
-import finance.domain.user.User;
-import finance.dto.accounts.AccountCreateDTO;
-import finance.dto.accounts.AccountResponseDTO;
-
-
-import finance.repository.RepositoryAccount;
-import finance.repository.RepositoryBank;
-import finance.repository.RepositoryUser;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import finance.domain.acounts.Account;
+import finance.domain.banks.Bank;
+import finance.domain.user.User;
+import finance.dto.accounts.AccountCreateDTO;
+import finance.dto.accounts.AccountResponseDTO;
+import finance.repository.RepositoryAccount;
+import finance.repository.RepositoryBank;
+import finance.repository.RepositoryUser;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ServiceAccount {
@@ -28,8 +26,6 @@ public class ServiceAccount {
     private RepositoryUser repositoryUser;
     @Autowired
     private RepositoryBank repositoryBank;
-    @Autowired
-    private JWTService jwtService;
 
     @Transactional
     public AccountResponseDTO createAccount(AccountCreateDTO data) {
