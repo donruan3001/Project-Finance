@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 @Injectable({providedIn:'root'})
 export class AuthService {
-private baseUrl = 'http://localhost:3000/api/auth';
+private baseUrl = 'http://localhost:8090/auth';
 private tokenKey = 'tokenJwt';
   
 constructor(private http: HttpClient) { }
@@ -17,9 +17,10 @@ constructor(private http: HttpClient) { }
     return this.http.post(`${this.baseUrl}/register`, data);
   }
   login(data: { email: string; password: string }): Observable<any> {
-  return this.http.post(`${this.baseUrl}/login`, data).pipe(
-    tap((res: any) => localStorage.setItem(this.tokenKey, res.tokenJwt))
-  );}
+    return this.http.post(`${this.baseUrl}/login`, data).pipe(
+      tap((res: any) => localStorage.setItem(this.tokenKey, res.tokenJwt))
+    );
+  }
 
     getToken(): string | null {
     return localStorage.getItem(this.tokenKey);

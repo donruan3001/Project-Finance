@@ -5,17 +5,19 @@ import { AccountsRoutingModule } from './accounts-routing.module';
 import { AccountsComponent } from './accounts.component';
 import { AccountListComponent } from './account-list/account-list.component';
 import { AccountCreateComponent } from './account-create/account-create.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [
     AccountsComponent,
     AccountListComponent,
-    AccountCreateComponent
   ],
   imports: [
     CommonModule,
-    AccountsRoutingModule
+    AccountsRoutingModule,
+    AccountCreateComponent,
+    RouterModule
   ]
 })
 export class AccountsModule { }
