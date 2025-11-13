@@ -84,14 +84,7 @@ public class GlobalExceptionHandler {
         response.put("message", e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-    
-  @ExceptionHandler(EmailAlreadyExistsException.class)
-  public ProblemDetail handleEmail(EmailAlreadyExistsException ex) {
-    var pd = ProblemDetail.forStatus(HttpStatus.CONFLICT);
-    pd.setTitle("Email já cadastrado");
-    pd.setDetail(ex.getMessage());
-    return pd;
-  }
+   
 
   @ExceptionHandler(EntityNotFoundException.class)
   public ProblemDetail handleNotFound(EntityNotFoundException ex) {

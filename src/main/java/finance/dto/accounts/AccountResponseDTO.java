@@ -1,10 +1,11 @@
 // finance/api/dto/AccountResponseDTO.java
 package finance.dto.accounts;
 
-import finance.domain.acounts.AccountType;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import finance.domain.acounts.Account;
+import finance.domain.acounts.AccountType;
 
 public record AccountResponseDTO(
         Long id,
@@ -14,4 +15,17 @@ public record AccountResponseDTO(
         AccountType type,
         BigDecimal balance,
         LocalDateTime createdAt
-) {}
+) {
+
+        public static AccountResponseDTO toDTO(Account a){
+return new AccountResponseDTO(
+            a.getId(),
+            a.getUser().getId(),
+            a.getBank().getId(),
+            a.getName(),
+            a.getType(),
+            a.getBalance(),
+            a.getCreatedAt()
+        );
+        }
+}
