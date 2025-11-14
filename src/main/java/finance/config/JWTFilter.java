@@ -38,15 +38,13 @@ public class JWTFilter extends OncePerRequestFilter {
             var subject = jwtService.getSecretKey(token);
            
 
-            UserDetails usuario = userRepository.findByUsername(subject);
-
-            if (usuario != null) {
+            userRepository.findByUsername(subject).ifPresent(usuario -> {
                 var authentication = new UsernamePasswordAuthenticationToken(
                     usuario, null, usuario.getAuthorities()
                 );
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            });
         }
 
         // Sempre chama o filterChain para continuar o processamento

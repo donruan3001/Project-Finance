@@ -1,18 +1,15 @@
 package finance.services;
-import finance.dto.transactions.TransactionResponseDTO;
-import finance.exceptions.RuntimeUserNotAuthorized;
-import finance.exceptions.TransactionValidation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
 import finance.domain.acounts.Account;
 import finance.domain.transactions.Transaction;
 import finance.domain.transactions.TypeTransaction;
 import finance.dto.transactions.TransactionCreateDTO;
+import finance.dto.transactions.TransactionResponseDTO;
 import finance.repository.RepositoryAccount;
 import finance.repository.RepositoryTransactions;
-
+import finance.validator.AuthenticatedUser;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -22,22 +19,20 @@ public class ServiceTransactions {
     private  RepositoryTransactions repositoryTransactions;
     @Autowired
     private RepositoryAccount repositoryAccount;
-
+    @Autowired
+    private AuthenticatedUser authenticatedUser;
 @Transactional
 public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
 
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String username= auth.getName();
-
+    String username=authenticatedUser.getUsername();
     Account account = repositoryAccount.findById(data.accountId())
             .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
     if (!account.getUser().getUsername().equals(username)) {
-        throw new RuntimeUserNotAuthorized("A conta nao pertence ao user autenticado");
+        
     }
 
 
-    try {
 
         if (data.type().equals(TypeTransaction.EXPENSE)) {
             account.setBalance(account.getBalance().subtract(data.amount()));
@@ -65,10 +60,6 @@ public TransactionResponseDTO createTransaction(TransactionCreateDTO data) {
                     transaction.getName(),
                     transaction.getAmount()
         );
-
-    } catch (TransactionValidation e) {
-        throw new TransactionValidation("erro no processamento da transacao");
     }
 
-
-}}
+}

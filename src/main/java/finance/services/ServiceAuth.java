@@ -31,11 +31,12 @@ public class ServiceAuth implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repositoryUser.findByUsername(username);
+        return repositoryUser.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + username));
     }
 
     public void register(UserRegisterDTO user) {
-        if (repositoryUser.findByUsername(user.email()) != null) {
+        if (repositoryUser.findByUsername(user.email()).isPresent()) {
             throw new IllegalArgumentException("Email já cadastrado");
         }
         String password = passwordEncoder.encode(user.password());
@@ -46,16 +47,8 @@ public class ServiceAuth implements UserDetailsService {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
         authenticationManager.authenticate(authenticationToken);
         UserDetails userDetails = loadUserByUsername(email);
-        if (userDetails == null) {
-            throw new UsernameNotFoundException("Usuário não encontrado");
-        }
         String token = jwtService.createSecretKey((User) userDetails);
-        ResponseJwtDTO responseJwtDTO = new ResponseJwtDTO(token);
-
-        return responseJwtDTO;
-
-
-
+        return new ResponseJwtDTO(token);
     }
 }
 
