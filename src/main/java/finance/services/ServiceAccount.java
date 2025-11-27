@@ -71,6 +71,20 @@ public class ServiceAccount {
                         account.getBalance(),
                         account.getCreatedAt()
                 ));
- 
-}
+    }
+
+    // BUG FIX: Método estava vazio e causaria erro de compilação
+    // Removido método incompleto - implementar quando necessário
+    // Se precisar de atualização de conta, implementar com validações adequadas:
+    // @Transactional
+    // public AccountResponseDTO updateMyAccount(Long accountId, AccountUpdateDTO data) {
+    //     String username = authenticatedUser.getUsername();
+    //     Account account = repositoryAccount.findById(accountId)
+    //             .orElseThrow(() -> new EntityNotFoundException("Conta não encontrada"));
+    //     if (!account.getUser().getUsername().equals(username)) {
+    //         throw new AccessDeniedException("Você não tem permissão para acessar esta conta");
+    //     }
+    //     // Atualizar campos...
+    //     return AccountResponseDTO.toDTO(repositoryAccount.save(account));
+    // }
 }

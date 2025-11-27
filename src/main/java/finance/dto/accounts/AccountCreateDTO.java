@@ -8,9 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record AccountCreateDTO(
-        @NotNull(message = "account.userId.required")
-        Long userId,
-
         @NotNull(message = "account.bankId.required")
         Long bankId,
 
