@@ -1,8 +1,8 @@
 package finance.dto.accounts;
 
-import finance.domain.acounts.AccountType;
-
 import java.math.BigDecimal;
+
+import finance.domain.acounts.AccountType;
 
 public record AccountUpdateDTO(
         String name,

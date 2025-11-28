@@ -1,11 +1,11 @@
 package finance.dto.accounts;
 
+import java.math.BigDecimal;
+
 import finance.domain.acounts.AccountType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-import java.math.BigDecimal;
 
 public record AccountCreateDTO(
         String bank,  // Opcional - pode ser null
