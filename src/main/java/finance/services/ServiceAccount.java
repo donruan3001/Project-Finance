@@ -6,16 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import finance.domain.acounts.Account;
-import finance.domain.banks.Bank;
 import finance.domain.user.User;
 import finance.dto.accounts.AccountCreateDTO;
 import finance.dto.accounts.AccountResponseDTO;
 import finance.exceptions.UsernameNotFoundException;
 import finance.repository.RepositoryAccount;
-import finance.repository.RepositoryBank;
 import finance.repository.RepositoryUser;
 import finance.validator.AuthenticatedUser;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -26,8 +23,6 @@ public class ServiceAccount {
     @Autowired
     private RepositoryUser repositoryUser;
     @Autowired
-    private RepositoryBank repositoryBank;
-    @Autowired
     private AuthenticatedUser authenticatedUser;
 
     @Transactional
@@ -35,15 +30,14 @@ public class ServiceAccount {
 
         String username=authenticatedUser.getUsername();
 
-
         User user = repositoryUser.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        Bank bank = repositoryBank.findById(data.bankId())
-                .orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));       
+        // Bank agora é uma String opcional
+        String bankName = data.bank() != null ? data.bank().trim() : null;
 
         var account = new Account(user,
-                bank, data.name().trim(),
+                bankName, data.name().trim(),
                 data.type(), data.balance());
 
                 
@@ -65,7 +59,7 @@ public class ServiceAccount {
         return accounts.map(account -> new AccountResponseDTO(
                         account.getId(),
                         account.getUser().getId(),
-                        account.getBank().getId(),
+                        account.getBank(),  // Agora é String
                         account.getName(),
                         account.getType(),
                         account.getBalance(),

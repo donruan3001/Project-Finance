@@ -9,7 +9,6 @@ import finance.domain.acounts.Account;
 import finance.dto.accounts.AccountResponseDTO;
 import finance.dto.accounts.AccountUpdateDTO;
 import finance.repository.RepositoryAccount;
-import finance.repository.RepositoryBank;
 import finance.repository.RepositoryUser;
 import jakarta.transaction.Transactional;
 
@@ -19,8 +18,6 @@ public class ServiceAdmin {
     private RepositoryAccount repositoryAccount;
     @Autowired
     private RepositoryUser repositoryUser;
-    @Autowired
-    private RepositoryBank repositoryBank;
 
         public Page<AccountResponseDTO> getAllAccounts(Pageable pageable) {
         Page<Account> accounts = repositoryAccount.findAll(pageable);
@@ -28,7 +25,7 @@ public class ServiceAdmin {
         var dto= accounts.map(account -> new AccountResponseDTO(
                 account.getId(),
                 account.getUser().getId(),
-                account.getBank().getId(),
+                account.getBank(),  // Agora é String
                 account.getName(),
                 account.getType(),
                 account.getBalance(),
@@ -46,6 +43,7 @@ public class ServiceAdmin {
 
             // Atualiza apenas os campos fornecidos, preservando os existentes
             if (data.name() != null) account.setName(data.name().trim());
+            if (data.bank() != null) account.setBank(data.bank().trim());
             if (data.type() != null) account.setType(data.type());
             if (data.balance() != null) account.setBalance(data.balance());
 
@@ -53,7 +51,7 @@ public class ServiceAdmin {
             return new AccountResponseDTO(
                     account.getId(),
                     account.getUser().getId(),
-                    account.getBank().getId(),
+                    account.getBank(),  // Agora é String
                     account.getName(),
                     account.getType(),
                     account.getBalance(),

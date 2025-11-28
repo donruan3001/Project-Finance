@@ -10,7 +10,7 @@ import finance.domain.acounts.AccountType;
 public record AccountResponseDTO(
         Long id,
         Long userId,
-        Long bankId,
+        String bank,  // Agora é String opcional
         String name,
         AccountType type,
         BigDecimal balance,
@@ -21,7 +21,7 @@ public record AccountResponseDTO(
 return new AccountResponseDTO(
             a.getId(),
             a.getUser().getId(),
-            a.getBank().getId(),
+            a.getBank(),  // Retorna String diretamente
             a.getName(),
             a.getType(),
             a.getBalance(),

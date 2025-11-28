@@ -3,7 +3,6 @@ package finance.domain.acounts;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import finance.domain.banks.Bank;
 import finance.domain.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,9 +27,8 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bank_id")
-    private Bank bank;
+    @Column(name = "bank", nullable = true)
+    private String bank;
 
     private String name;
 
@@ -46,7 +44,7 @@ public class Account {
     public Account() {}
 
     // 🔹 Construtor completo
-    public Account(Long id, User user, Bank bank, String name, AccountType type, BigDecimal balance, LocalDateTime createdAt) {
+    public Account(Long id, User user, String bank, String name, AccountType type, BigDecimal balance, LocalDateTime createdAt) {
         this.id = id;
         this.user = user;
         this.bank = bank;
@@ -57,7 +55,7 @@ public class Account {
     }
 
     // 🔹 Construtor usado no create
-    public Account(User user, Bank bank, String name, AccountType type, BigDecimal balance) {
+    public Account(User user, String bank, String name, AccountType type, BigDecimal balance) {
         this.user = user;
         this.bank = bank;
         this.name = name;
@@ -84,11 +82,11 @@ public class Account {
         this.user = user;
     }
 
-    public Bank getBank() {
+    public String getBank() {
         return bank;
     }
 
-    public void setBank(Bank bank) {
+    public void setBank(String bank) {
         this.bank = bank;
     }
 
