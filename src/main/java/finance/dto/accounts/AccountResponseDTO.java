@@ -10,8 +10,7 @@ import finance.domain.acounts.AccountType;
 public record AccountResponseDTO(
         Long id,
         Long userId,
-        Long bankId,
-        String name,
+            String name,
         AccountType type,
         BigDecimal balance,
         LocalDateTime createdAt
@@ -21,7 +20,6 @@ public record AccountResponseDTO(
 return new AccountResponseDTO(
             a.getId(),
             a.getUser().getId(),
-            a.getBank().getId(),
             a.getName(),
             a.getType(),
             a.getBalance(),

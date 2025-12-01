@@ -8,6 +8,6 @@ import finance.domain.user.User;
 
 public interface  RepositoryUser extends JpaRepository<User,Long> {
     
-Optional<User> findByUsername(String username);
+User findByUsername(String username);
 
 }

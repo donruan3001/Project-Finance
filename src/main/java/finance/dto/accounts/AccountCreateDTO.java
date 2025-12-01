@@ -11,8 +11,6 @@ public record AccountCreateDTO(
         @NotNull(message = "account.userId.required")
         Long userId,
 
-        @NotNull(message = "account.bankId.required")
-        Long bankId,
 
         @NotBlank(message = "account.name.required")
         String name,

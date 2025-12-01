@@ -5,17 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import finance.exceptions.UsernameNotFoundExecption;
 import finance.domain.acounts.Account;
-import finance.domain.banks.Bank;
 import finance.domain.user.User;
 import finance.dto.accounts.AccountCreateDTO;
 import finance.dto.accounts.AccountResponseDTO;
 import finance.repository.RepositoryAccount;
-import finance.repository.RepositoryBank;
 import finance.repository.RepositoryUser;
 import finance.validator.AuthenticatedUser;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -25,8 +21,7 @@ public class ServiceAccount {
     private RepositoryAccount repositoryAccount;
     @Autowired
     private RepositoryUser repositoryUser;
-    @Autowired
-    private RepositoryBank repositoryBank;
+    
     @Autowired
     private AuthenticatedUser authenticatedUser;
 
@@ -36,16 +31,9 @@ public class ServiceAccount {
         String username=authenticatedUser.getUsername();
 
 
-        User user = repositoryUser.findByUsername(username)
-                .orElseThrow(()->new UsernameNotFoundExecption("user não encontrado"));
+        User user = repositoryUser.findByUsername(username);
 
-        Bank bank = repositoryBank.findById(data.bankId())
-                .orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));       
-
-        var account = new Account(user,
-                bank, data.name().trim(),
-                data.type(), data.balance());
-
+        var account = new Account(user, data.name(), data.type(), data.balance());
                 
         repositoryAccount.save(account);
 
@@ -56,8 +44,7 @@ public class ServiceAccount {
 
         String username=authenticatedUser.getUsername();
         
-        User user = repositoryUser.findByUsername(username)
-                .orElseThrow(()->new UsernameNotFoundExecption("user não encontrado"));
+        User user = repositoryUser.findByUsername(username);
 
         
         Page<Account> accounts = repositoryAccount.findByUserId(user.getId(), pageable);
@@ -65,7 +52,6 @@ public class ServiceAccount {
         return accounts.map(account -> new AccountResponseDTO(
                         account.getId(),
                         account.getUser().getId(),
-                        account.getBank().getId(),
                         account.getName(),
                         account.getType(),
                         account.getBalance(),
